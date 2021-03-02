@@ -1,11 +1,14 @@
 package pl.javastart.securitykonfig.user;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -30,5 +33,19 @@ public class UserService {
         userToAdd.setRoles(new HashSet<>(list));
 
         userRepository.save(userToAdd);
+    }
+
+    //wyswietl użytkownikow procz zalogowanego
+    public List<User> findAllWithoutCurrentUser() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication(); // sciaga informacje o zalogowanym userze
+
+        return userRepository.findAll()
+                .stream()
+                .filter(user -> !user.getUsername().equals(currentUser.getName())) //username musi byc rozne od aktualnego usera
+                .collect(Collectors.toList());
+    }
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
     }
 }

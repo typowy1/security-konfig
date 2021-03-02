@@ -14,11 +14,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/secure").authenticated() //strona będzie widoczna tylko dla zalogowanych
+                .antMatchers("/img/**").permitAll() //gwiazdki oznaczają ze wszystkie z foldru
+                .antMatchers("/").permitAll() //strona będzie widoczna dla wszystkich
+                //.antMatchers("/secure").authenticated() //strona będzie widoczna tylko dla zalogowanych
                 .anyRequest().permitAll()  // jeśli przyjdzie żadanie to pozwalamy każdemu na przejscie do tego elementu
                 .and()  // przechodzimy poziom wyżej
                 .formLogin() // logujemy za pomocą formularza
-                .loginPage("logowanie"); // strona odpowiedzialna za logowania
+                .loginPage("logowanie") // strona odpowiedzialna za logowania
+                .permitAll();
 
 
 

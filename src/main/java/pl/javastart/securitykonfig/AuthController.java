@@ -2,8 +2,9 @@ package pl.javastart.securitykonfig;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AuthController {
@@ -11,7 +12,14 @@ public class AuthController {
     // kontroler odpowiedzialny za logowanie
 
     @GetMapping("/logowanie")
-    public String loginForm() {
+    public String loginForm(@RequestParam(required = false) String error, Model model) {
+
+        //łapiemy błąd
+        boolean showErrorMessage = false;
+        if (error != null) {
+            showErrorMessage = true;
+        }
+        model.addAttribute("showErrorMessage", showErrorMessage);
         return "login";
     }
 

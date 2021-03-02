@@ -1,7 +1,7 @@
 INSERT INTO user(id, username, password)
 VALUES
-       (1, 'admin', ''),
-       (2, 'marcin', ''),
+       (1, 'admin', '{noop)asdf'),
+       (2, 'marcin', '{noop)asdf'),
        (3, 'rafal', '');
 
 INSERT INTO user_role(user_id, role)

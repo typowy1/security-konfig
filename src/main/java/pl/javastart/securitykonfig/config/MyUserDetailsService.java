@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import pl.javastart.securitykonfig.user.User;
 import pl.javastart.securitykonfig.user.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -21,6 +24,7 @@ public class MyUserDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    @Transactional //dodajemy sesje bo wyjatek wyskakuje ze nie moze polaczyc sie z sesja
     @Override //załaduj użytkownika za pomocą jego nazwy, weryfikacja przesłanych danych przez użytkownika
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -28,16 +32,16 @@ public class MyUserDetailsService implements UserDetailsService {
         Optional<User> userOptional = userRepository.findByUsername(username);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            user.getRoles()
+            Set<SimpleGrantedAuthority> roles = user.getRoles()
                     .stream()
-                    .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().name()));
-            // przekształcam user role na SimpleGrantedAuthority i wyciągam nazwe roli
+                    .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().name())).collect(Collectors.toSet());
+            // przekształcam user role na SimpleGrantedAuthority i wyciągam nazwe roli i wstawiam do seta
 
             Collection<SimpleGrantedAuthority> role; // to sprawdzamy role
             // to nie jest nasz user a user z org.springframework.security.core.userdetails.User;
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), role);
+            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), roles);
             //wskazaliśmy pełną ściezkę żeby się Usery nie myliły
         }
-        return null;
+        throw new UsernameNotFoundException("Username" + username + "not found");
     }
 }

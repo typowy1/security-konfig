@@ -14,7 +14,7 @@ public class User {
 
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST) //cascade = CascadeType.PERSIST - jesli nadamy role i damy zapisz to zapisze te role razem z nimi
     private Set<UserRole> roles;  // role do zarządzania użytkownikami, najczęsciej robi się relacje jeden do wielu
 
     public Long getId() {

@@ -18,7 +18,7 @@ public class UserRole {
     public UserRole() {
     }
 
-    public UserRole(User user, Role role) {
+    public UserRole(User user, Role role) { //konstruktor który umożliwia przyjęcie użytkownika
         this.user = user;
         this.role = role;
     }

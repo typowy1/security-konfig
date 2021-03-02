@@ -1,10 +1,9 @@
-package pl.javastart.securitykonfig;
+package pl.javastart.securitykonfig.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-import static org.hibernate.criterion.Restrictions.and;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -31,7 +30,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/logowanie")
                 .permitAll();
-
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception { // seciurity dla bazy danej
+        web.ignoring()
+                .antMatchers("/h2-console/**"); // ignorujemy security dla consoli h2
+    }
 }

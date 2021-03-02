@@ -1,4 +1,4 @@
-package pl.javastart.securitykonfig;
+package pl.javastart.securitykonfig.user;
 
 
 import org.springframework.stereotype.Controller;

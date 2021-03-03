@@ -34,15 +34,37 @@ public class AuthController {
 
     @PostMapping("/rejestracja")
     public String register(User user) {
-        String username = user.getUsername();
+//        String username = user.getUsername();
+        String email = user.getEmail();
         String password = user.getPassword();
-        userService.registerUser(username, password);
+        userService.registerUser(email, password);
         return "redirect:/"; //powinno być na strone z komunikatem, udało sie zarejestrowac
     }
 
-//    @PostMapping("/logowanie")
-//    public String loginForm() {
-//        return "login";
-//    }
+    //zwracamy formularz do resetu hasła
+    @GetMapping("/reset")
+    public String resetForm() {
+        return "resetForm";
+    }
 
+    //przechwycimy email i temu użytkownikowi jak istnieje wyslemy maila do resetu hasla
+    @PostMapping("/reset")
+    public String resetPasswordLinkSend(@RequestParam String email) {
+        userService.sendPasswordResetLink(email);
+        return "resetFormSend";
+    }
+
+    //strona która otwiera sie po kliknieciu na link w mailu, przechwytujemy klucz, formularz z resetowaniem hasła
+    @GetMapping("/resetHasla")
+    public String resetPassword(@RequestParam("klucz") String key, Model model) {
+        model.addAttribute("key", key);
+        return "resetFormWithKey";
+    }
+
+    //przechwytujemy z formularza dane o zmianie hasła
+    @PostMapping("/resetEnding")
+    public String resetPasswordLinkSend(@RequestParam String key, @RequestParam String password) {
+        userService.updateUserPassword(key, password); //podajemy klucz uzytkownika i nowe chasło
+        return "redirect:/logowanie"; //mozna tez przekierowac do strony z monitem jakims
+    }
 }

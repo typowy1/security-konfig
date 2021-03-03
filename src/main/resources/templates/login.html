@@ -15,11 +15,15 @@
 
 <form th:action="@{/logowanie}" method="post">
 <!--    dzięki temu nie musimy dodawac kolejnego inputa z tokenem, thymeleaf zrobi to automatycznie-->
+<!--    spring posługuje się nazwą username wiec nie zmieniamy na mail-->
 <input name="username" placeholder="Username">
 <input name="password" placeholder="Password">
 <input type="submit" value="Login">
 
 </form>
+
+<!--reset hasła-->
+<a href="/reset">Nie pamiętasz hasła?</a>
 
 </body>
 </html>

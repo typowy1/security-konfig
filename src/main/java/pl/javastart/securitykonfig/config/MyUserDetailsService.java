@@ -26,10 +26,10 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Transactional //dodajemy sesje bo wyjatek wyskakuje ze nie moze polaczyc sie z sesja
     @Override //załaduj użytkownika za pomocą jego nazwy, weryfikacja przesłanych danych przez użytkownika
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         //szukamy uzytkownika
-        Optional<User> userOptional = userRepository.findByUsername(username);
+        Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             Set<SimpleGrantedAuthority> roles = user.getRoles()
@@ -39,9 +39,10 @@ public class MyUserDetailsService implements UserDetailsService {
 
             Collection<SimpleGrantedAuthority> role; // to sprawdzamy role
             // to nie jest nasz user a user z org.springframework.security.core.userdetails.User;
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), roles);
+           // return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), roles);
+            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), roles);
             //wskazaliśmy pełną ściezkę żeby się Usery nie myliły
         }
-        throw new UsernameNotFoundException("Username" + username + "not found");
+        throw new UsernameNotFoundException("Username" + email + "not found");
     }
 }

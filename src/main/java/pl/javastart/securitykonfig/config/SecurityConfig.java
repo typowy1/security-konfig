@@ -31,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/h2-console/**").permitAll() //dostep dla wszystkich
                 .antMatchers("/rejestracja").permitAll()
+                .antMatchers("/reset").permitAll()//można by dać reset/** jakby resety hasła były po tym linku, ale nie są ;]
+                .antMatchers("/resetHasla").permitAll()
+                .antMatchers("/resetEnding").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN") //zaleznie od roli jaką posiada, **cokolwiek dalej by było to tylko admin ma tam dostep, bez ROLE_
                 .anyRequest().authenticated()
                 .and()

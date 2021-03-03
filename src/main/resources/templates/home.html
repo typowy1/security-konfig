@@ -12,13 +12,12 @@
 
 
 <!--rejestracja-->
+
 <h1>Registration form</h1>
 <form action="#" method="post" th:action="@{/rejestracja}" th:object="${user}">
-    <p th:errors="*{username}">Email errors</p>
-    <input th:field="*{username}" type="email" placeholder="Email" /><br />
+    <p th:errors="*{email}">Email errors</p>
     <p th:errors="*{password}">Password errors</p>
-    <input th:field="*{password}" type="password" placeholder="Password" /><br />
-    <input type="submit" value="Register" />
+    <input type="submit" value="Register"/>
 </form>
 
 <!--ponizer z emailem-->

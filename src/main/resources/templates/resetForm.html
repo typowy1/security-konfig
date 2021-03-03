@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resetowanie hasła</title>
+</head>
+<body>
+
+<h1>Resetowanie hasła</h1>
+<!--użytkownik uzupwłnia nazwe emaila-->
+<form th:action="@{/reset}" method="post">
+    <input name="email" placeholder="email"/> <br/>
+    <input type="submit" value="Resetuj"/>
+</form>
+
+</body>
+</html>

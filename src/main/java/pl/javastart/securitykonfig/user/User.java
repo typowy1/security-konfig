@@ -10,12 +10,32 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+//    private String username;
 
     private String password;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private String email;
+
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}) //{CascadeType.PERSIST, CascadeType.REMOVE} to jest tablica i mozna dodac kilka remove da mozliwosc usowania mimo roli w innej tabeli, //cascade = CascadeType.PERSIST - jesli nadamy role i damy zapisz to zapisze te role razem z nimi
     private Set<UserRole> roles;  // role do zarządzania użytkownikami, najczęsciej robi się relacje jeden do wielu
+
+    private String passwordResetKey;
+
+    public String getPasswordResetKey() {
+        return passwordResetKey;
+    }
+
+    public void setPasswordResetKey(String passwordResetKey) {
+        this.passwordResetKey = passwordResetKey;
+    }
 
     public Long getId() {
         return id;
@@ -25,13 +45,13 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
 
     public String getPassword() {
         return password;
